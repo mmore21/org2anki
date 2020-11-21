@@ -1,0 +1,19 @@
+CREATE TABLE Project_File_Versions (
+company_id bigint,
+project_id bigint,
+file_id bigint,
+id bigint,
+notes varchar(MAX),
+url varchar(1000),
+size bigint,
+created_at datetime,
+number int,
+created_by_id bigint,
+created_by_login varchar(255),
+created_by_name varchar(255),
+prostore_file_id bigint,
+prostore_file_name varchar(255),
+prostore_file_url varchar(255),
+prostore_file_filename varchar(255),
+PRIMARY KEY (company_id, project_id, )
+);
