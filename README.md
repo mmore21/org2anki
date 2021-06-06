@@ -11,4 +11,3 @@ Centralized hub consisting of various scripts, tools, and utilities.
 ## License
 
 util is available under the [MIT License](https://github.com/mmore21/util/blob/master/LICENSE).
-

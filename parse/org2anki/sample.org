@@ -1,0 +1,18 @@
+#+TITLE: Sample Org Mode File
+#+SUBTITLE: Subtitle for the Org Mode File
+#+STARTUP: content latexpreview
+
+* Major Heading
+** Section Heading
+*** What is a sample question?
+A =sample question= is a question that is used to demonstrate a concept.
+*** Does org2anki support more than one cloze statement?
+Yes, =org2anki= can =parse= multiple =cloze= statements in one string.
+*** Does org2anki support multiple lines for answers?
+Yes, org2anki parses over all lines until it reaches the next question.
+Therefore, it will also add this to the Anki answer for the question above.
+*** Can org2anki parse LaTeX?
+Yes, org2anki parses LaTeX just as it does any other form of text.
+It even can create cloze cards from LaTeX equations as seen in the next question.
+*** What is the Pythagorean theorem?
+The Pythagorean theorem states that =\( a^{2} + b^{2} = c^{2} \)=.
