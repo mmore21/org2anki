@@ -1,0 +1,28 @@
+#+TITLE: org2anki Test
+#+STARTUP: latexpreview
+#+ORG2ANKI: ALL
+
+* Chapter 0: Anki
+** Section 1: Introduction
+*** What is the Pythagorean theorem?
+\[a^2 + b^2 = c^2\]
+*** What is genomics?
+=Genomics= is the study of the function of human genetics on a global scale
+* Chapter 1: Notes
+** Section 1: Exporting
+*** What is a basic card? :sr:
+- Use =equal signs= for =cloze= tags with the same numbers (c1, c1)
+- Use ~tildas~ for ~cloze~ tags that with different numbers (c1, c2)
+*** What is a cloze card? :nosr:
+- A cloze card is signified by a equal sign or a tilda in the sentence.
+  + Any line that is a subset is added to the Extra section of the cloze card.
+*** How are cards included and excluded?
+- Cards are included by using the =:sr:= tag and excluded by using the =:nosr:= tag
+- If using the =ALL= setting, all the deepested-nested bullets are automatically exported
+  + Questions can be individually excluded by adding the =:nosr:= tag
+- If using the =NONE= setting, no bullets are automatically exported
+  + Questions can be individually included by adding the =:sr:= tag
+*** Does LaTeX interfere with the cloze commands?
+- LaTeX shares the same symbols used in the cloze command parsing, so it is accounted for in the program
+  + You can even =cloze= a LaTeX equation, such as =\( ax + by = cz \)=.
+- The \( y \) theorem states that there are several

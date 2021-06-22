@@ -131,7 +131,7 @@ def help():
     print("== Generate Anki cards from directory (-d)")
     print(f"{sys.argv[0]} -d <org_dir> <anki_dir>\n")
     print("== Generate Anki cards from file (-f)")
-    print(f"{sys.argv[0]} -f <org_file> <anki_file>\n")
+    print(f"{sys.argv[0]} -f <org_file> <anki_dir>\n")
     print("== Enable verbose logging output (-v)")
     print(f"{sys.argv[0]} -v ...\n")
     print("== View help message (-h)")

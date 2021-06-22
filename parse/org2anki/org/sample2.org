@@ -1,6 +1,7 @@
 #+TITLE: Sample Org Mode File
 #+SUBTITLE: Subtitle for the Org Mode File
 #+STARTUP: content latexpreview
+#+ORG2ANKI: all
 
 * Major Heading
 ** Section Heading

@@ -1,0 +1,3 @@
+A {{c1::sample question}} is a question that is used to demonstrate a concept.;
+Yes, {{c1::org2anki}} can {{c1::parse}} multiple {{c1::cloze}} statements in one string.;
+The Pythagorean theorem states that {{c1::\( a^{2} + b^{2} = c^{2} \)}}.;
