@@ -5,6 +5,10 @@ import shutil
 import orgparse
 
 class Parser():
+    """
+    Parser for org mode files.
+    """
+    
     INCLUDE_TAG = "sr"
     IGNORE_TAG = "nosr"
     INCLUDE_MODE = "all"
@@ -17,6 +21,10 @@ class Parser():
     ANKI_MEDIA_PATH = "/home/maz/.local/share/Anki2/Main/collection.media/"
 
     def __init__(self, org_file="final.org", anki_dir="tmp"):
+        """
+        Initializes the parser by opening an org file, getting its max depth,
+        and setting the parser to its default mode (include all).
+        """
         self.tree = orgparse.load(org_file)
         self.max_depth = self.get_max_depth()
         self.mode = Parser.INCLUDE_MODE
@@ -24,9 +32,25 @@ class Parser():
         self.cloze_cards = []
     
     def get_max_depth(self):
+        """
+        Get the max nest depth among all bullet point headings in an org mode file.
+
+        Ex:
+            * Heading 1
+            ** Heading 2
+            *** Heading 3
+            * Heading 4
+            ** Heading 5
+
+            Return the depth of Heading 3, which is 3.
+        """
         return max([node.level for node in self.tree])
     
     def parse_header(self):
+        """
+        Parses the header of an org mode file. Looks for the #+org2anki heading
+        that specifies whether to set the mode to include or ignore.
+        """
         header = self.tree[0].body
         lines = header.lower().split("\n")
         for line in lines:
@@ -39,6 +63,10 @@ class Parser():
                 break
 
     def parse_image(self, line):
+        """
+        Extracts an image path from an org mode file and copies that image to the Anki
+        media directory.
+        """
         # print(line)
         match = re.search(Parser.REGEX_IMAGE, line)
         if match:
@@ -56,6 +84,9 @@ class Parser():
         return line
             
     def gen_cloze(self, line, cloze_mode):
+        """
+        Generates a cloze card from a line in the org mode file.
+        """
         is_cloze = re.search(cloze_mode, line)
         match = re.finditer(cloze_mode, line)
 
@@ -63,6 +94,7 @@ class Parser():
         parts = []
         idx = 0
         prev = 0
+        # Removes the cloze mode symbols to later use the line for the basic card type.
         if match:
             for m in match:
                 start = m.span()[0]
@@ -78,8 +110,10 @@ class Parser():
         
         tilde_count = 1
         for idx in cloze_indices:
+            # Creates cloze that all reveal on same card.
             if cloze_mode == Parser.REGEX_CLOZE_EQUAL:
                 parts[idx] = "{{c1::" + parts[idx] + "}}"
+            # Creates cloze that reveal on separate cards.
             elif cloze_mode == Parser.REGEX_CLOZE_TILDE:
                 parts[idx] = "{{c" + str(tilde_count) + "::" + parts[idx] + "}}"
                 tilde_count += 1
@@ -93,6 +127,9 @@ class Parser():
             return ""
 
     def gen_card(self, node):
+        """
+        Generates a basic card (and cloze card(s) if any exist) from a given org mode node.
+        """
         # print(node.heading)
         lines = node.body.split("\n")
         answer = []
@@ -107,6 +144,7 @@ class Parser():
                 answer.append(res_tilde)
             else:
                 answer.append(line)
+            # Search every line for an image
             answer[-1] = self.parse_image(answer[-1])
         # print("\n".join(answer))
         # print(answer)
@@ -115,11 +153,19 @@ class Parser():
         self.basic_cards[node.heading] = "\n".join(bullet_answer)
         
     def gen_cards(self):
+        """
+        Generate Anki cards for every org mode leaf node in the file. Leaf nodes are
+        nodes that are equal to the max depth.
+
+        Returns a tuple of two lists: the generated basic cards and the generated cloze cards.
+        """
         leaf_nodes = [node for node in self.tree[1:] if node.level == self.max_depth]
         for node in leaf_nodes:
+            # Include all cards by default, except ones tagged to ignore
             if self.mode == Parser.INCLUDE_MODE:
                 if Parser.IGNORE_TAG not in node.tags:
                     self.gen_card(node)
+            # Ignore all cards by default, except ones tagged to include
             elif self.mode == Parser.IGNORE_MODE:
                 if Parser.INCLUDE_TAG in node.tags:
                     self.gen_card(node)
@@ -127,6 +173,10 @@ class Parser():
         return (self.basic_cards, self.cloze_cards)
     
 class O2A():
+    """
+    Converts org mode directories or files to Anki importable files.
+    """
+
     def __init__(self, verbose=False):
         self.file_count = 0
         self.card_count = 0
