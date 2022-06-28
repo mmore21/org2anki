@@ -1,4 +1,6 @@
+import hashlib
 import os
+import pathlib
 import re
 import sys
 import shutil
@@ -67,14 +69,17 @@ class Parser():
         Extracts an image path from an org mode file and copies that image to the Anki
         media directory.
         """
-        # print(line)
         match = re.search(Parser.REGEX_IMAGE, line)
         if match:
             img_path = os.path.abspath(match.group())
             img_name = os.path.basename(img_path)
 
-            anki_img_name = img_path.replace("/", "+")
+            # anki_img_name = img_path.replace("/", "+")
+            anki_img_name = img_path.encode("utf-8").hex()
+            print(anki_img_name)
+
             anki_img_path = os.path.join(Parser.ANKI_MEDIA_PATH, anki_img_name)
+            print(anki_img_path)
 
             if os.path.exists(img_path):
                 # print(img_path, img_name)
