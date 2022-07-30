@@ -1,25 +1,25 @@
-import hashlib
 import os
-import pathlib
 import re
-import sys
 import shutil
+import sys
+
 import orgparse
 
-class Parser():
+
+class Parser:
     """
     Parser for org mode files.
     """
-    
+
     INCLUDE_TAG = "sr"
     IGNORE_TAG = "nosr"
     INCLUDE_MODE = "all"
     IGNORE_MODE = "none"
-    REGEX_CLOZE_EQUAL = "(={1}[^=+\-\*\/\s]+?.*?[^=+\-\*\/\s]+?={1})|(={1}\S+?={1})"
-    REGEX_CLOZE_TILDE = "(~{1}[^=+\-\*\/\s]+?.*?[^=+\-\*\/\s]+?~{1})|(~{1}\S+?~{1})"
-    REGEX_IMAGE = "\S+\.(png|jpg|jpeg|svg|bmp)"
-    REGEX_LATEX_INLINE = "\\\([\s\S]+?\\\)"
-    REGEX_LATEX_BLOCK = "\\\[[\s\S]+?\\\]"
+    REGEX_CLOZE_EQUAL = r"(={1}[^=+\-\*\/\s]+?.*?[^=+\-\*\/\s]+?={1})|(={1}\S+?={1})"
+    REGEX_CLOZE_TILDE = r"(~{1}[^=+\-\*\/\s]+?.*?[^=+\-\*\/\s]+?~{1})|(~{1}\S+?~{1})"
+    REGEX_IMAGE = r"\S+\.(png|jpg|jpeg|svg|bmp)"
+    REGEX_LATEX_INLINE = r"\\\([\s\S]+?\\\)"
+    REGEX_LATEX_BLOCK = r"\\\[[\s\S]+?\\\]"
     ANKI_MEDIA_PATH = "/home/maz/.local/share/Anki2/Main/collection.media/"
 
     def __init__(self, org_file="final.org", anki_dir="tmp"):
@@ -32,7 +32,7 @@ class Parser():
         self.mode = Parser.INCLUDE_MODE
         self.basic_cards = {}
         self.cloze_cards = []
-    
+
     def get_max_depth(self):
         """
         Get the max nest depth among all bullet point headings in an org mode file.
@@ -47,7 +47,7 @@ class Parser():
             Return the depth of Heading 3, which is 3.
         """
         return max([node.level for node in self.tree])
-    
+
     def parse_header(self):
         """
         Parses the header of an org mode file. Looks for the #+org2anki heading
@@ -85,9 +85,9 @@ class Parser():
                 # print(img_path, img_name)
                 # print(anki_img_path, anki_img_name)
                 shutil.copy(img_path, anki_img_path)
-                line = "<img src=\"" + anki_img_name + "\" />"
+                line = '<img src="' + anki_img_name + '" />'
         return line
-            
+
     def gen_cloze(self, line, cloze_mode):
         """
         Generates a cloze card from a line in the org mode file.
@@ -106,13 +106,13 @@ class Parser():
                 end = m.span()[1]
                 parts.append(line[prev:start])
                 idx += 1
-                parts.append(line[start+1:end-1])
+                parts.append(line[start + 1 : end - 1])
                 cloze_indices.append(idx)
                 idx += 1
                 prev = end
         parts.append(line[prev:])
         clean = "".join(parts)
-        
+
         tilde_count = 1
         for idx in cloze_indices:
             # Creates cloze that all reveal on same card.
@@ -122,7 +122,7 @@ class Parser():
             elif cloze_mode == Parser.REGEX_CLOZE_TILDE:
                 parts[idx] = "{{c" + str(tilde_count) + "::" + parts[idx] + "}}"
                 tilde_count += 1
-        
+
         cloze = "".join(parts)
 
         if is_cloze:
@@ -154,9 +154,9 @@ class Parser():
         # print("\n".join(answer))
         # print(answer)
         bullet_answer = ["<li>" + a + "</li>" for a in answer]
-        #print(bullet_answer)
+        # print(bullet_answer)
         self.basic_cards[node.heading] = "\n".join(bullet_answer)
-        
+
     def gen_cards(self):
         """
         Generate Anki cards for every org mode leaf node in the file. Leaf nodes are
@@ -174,10 +174,11 @@ class Parser():
             elif self.mode == Parser.IGNORE_MODE:
                 if Parser.INCLUDE_TAG in node.tags:
                     self.gen_card(node)
-        
+
         return (self.basic_cards, self.cloze_cards)
-    
-class O2A():
+
+
+class O2A:
     """
     Converts org mode directories or files to Anki importable files.
     """
@@ -187,7 +188,7 @@ class O2A():
         self.card_count = 0
         self.cloze_count = 0
         self.verbose = verbose
-    
+
     def gen_file(self, org_path, anki_path):
         p = Parser(org_file=org_path, anki_dir=anki_path)
         p.parse_header()
@@ -200,7 +201,7 @@ class O2A():
         os.makedirs(os.path.dirname(anki_path_card), exist_ok=True)
         with open(anki_path_card, "w") as f:
             for question, answer in basic_cards.items():
-                f.write(question + "; \"" + answer + "\";\n")
+                f.write(question + '; "' + answer + '";\n')
 
         anki_path_cloze = os.path.join(anki_path, "cloze.txt")
         os.makedirs(os.path.dirname(anki_path_cloze), exist_ok=True)
@@ -211,7 +212,7 @@ class O2A():
         if self.verbose:
             print("✔️", org_path, "‣", anki_path)
         self.file_count += 1
-        
+
     def gen_dir(self, org_dir, anki_dir):
         rdname = os.path.basename(os.path.dirname(org_dir))
         for subdir, dirs, files in os.walk(org_dir):
@@ -224,13 +225,9 @@ class O2A():
                     self.gen_file(org_path, anki_path)
 
     def run(self):
-        # Display banner
-        self.banner()
-
         # Get CLI options and arguments
         opts = [opt for opt in sys.argv[1:] if opt.startswith("-")]
-        args = [arg for arg in sys.argv[1:] if not arg.startswith("-")]\
-
+        args = [arg for arg in sys.argv[1:] if not arg.startswith("-")]
         if "-v" in opts:
             self.verbose = True
         if "-h" in opts:
@@ -238,23 +235,17 @@ class O2A():
         elif "-d" in opts:
             print("== Generating Anki cards from directory (-d):", args)
             self.gen_dir(args[0], args[1])
-            print(f"== Successfully generated {self.card_count} basic card(s) and {self.cloze_count} cloze card(s) from {self.file_count} file(s)")
+            print(
+                f"== Successfully generated {self.card_count} basic card(s) and {self.cloze_count} cloze card(s) from {self.file_count} file(s)"
+            )
         elif "-f" in opts:
             print("== Generating Anki cards from file (-f):", args)
             self.gen_file(args[0], args[1])
-            print(f"== Successfully generated {self.card_count} basic card(s) and {self.cloze_count} cloze card(s) from {self.file_count} file(s)")
+            print(
+                f"== Successfully generated {self.card_count} basic card(s) and {self.cloze_count} cloze card(s) from {self.file_count} file(s)"
+            )
         else:
             self.help()
-
-    def banner(self):
-        print("""
-                 ____             _    _ 
-  ___  _ __ __ _|___ \ __ _ _ __ | | _(_)
- / _ \| '__/ _` | __) / _` | '_ \| |/ / |
-| (_) | | | (_| |/ __/ (_| | | | |   <| |
- \___/|_|  \__, |_____\__,_|_| |_|_|\_\_|
-           |___/                         
-        \n""")
 
     def help(self):
         print("== Generate Anki cards from directory (-d)")
@@ -266,6 +257,7 @@ class O2A():
         print("== View help message (-h)")
         print(f"{sys.argv[0]} -h")
 
-if __name__=="__main__":
+
+if __name__ == "__main__":
     o2a = O2A()
     o2a.run()
