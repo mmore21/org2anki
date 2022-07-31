@@ -1,9 +1,4 @@
-{{c1::Genomics}} is the study of the function of human genetics on a global scale;
+{{c1::Genomics}} is the study of the function of human genetics on a global scale.;
 Use {{c1::equal signs}} for {{c1::cloze}} tags with the same numbers (c1, c1);
 Use {{c1::tildas}} for {{c2::cloze}} tags that with different numbers (c1, c2);
-Cards are included by using the {{c1:::sr:}} tag and excluded by using the {{c1:::nosr:}} tag;
-If using the {{c1::ALL}} setting, all the deepested-nested bullets are automatically exported;
-Questions can be individually excluded by adding the {{c1:::nosr:}} tag;
-If using the {{c1::NONE}} setting, no bullets are automatically exported;
-Questions can be individually included by adding the {{c1:::sr:}} tag;
 You can even {{c1::cloze}} a LaTeX equation, such as {{c1::\( ax + by = cz \)}}.;

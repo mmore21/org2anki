@@ -7,6 +7,8 @@
 ** Section Heading
 *** What is a sample question?
 A =sample question= is a question that is used to demonstrate a concept.
+Term :: This is a definition.
+Flashcard :: There is a front and back for each flashcard.
 *** Does org2anki support more than one cloze statement?
 Yes, =org2anki= can =parse= multiple =cloze= statements in one string.
 *** Does org2anki support multiple lines for answers?

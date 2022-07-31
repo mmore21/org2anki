@@ -1,12 +1,1 @@
-What is the Pythagorean theorem?; "<li>\[a^2 + b^2 = c^2\]</li>";
-What is genomics?; "<li>Genomics is the study of the function of human genetics on a global scale</li>";
-What is a basic card?; "<li>Use equal signs for cloze tags with the same numbers (c1, c1)</li>
-<li>Use tildas for cloze tags that with different numbers (c1, c2)</li>";
-How are cards included and excluded?; "<li>Cards are included by using the :sr: tag and excluded by using the :nosr: tag</li>
-<li>If using the ALL setting, all the deepested-nested bullets are automatically exported</li>
-<li>Questions can be individually excluded by adding the :nosr: tag</li>
-<li>If using the NONE setting, no bullets are automatically exported</li>
-<li>Questions can be individually included by adding the :sr: tag</li>";
-Does LaTeX interfere with the cloze commands?; "<li>LaTeX shares the same symbols used in the cloze command parsing, so it is accounted for in the program</li>
-<li>You can even cloze a LaTeX equation, such as \( ax + by = cz \).</li>
-<li>The \( y \) theorem states that there are several</li>";
+Multiline definition; "This is a multiline definition.<br>There are several lines here.<br>This will still be parsed correctly.";

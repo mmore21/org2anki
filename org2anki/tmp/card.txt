@@ -1,3 +1,0 @@
-What is thrust?; "<li>Thrust is produced by a propeller in the same way that lift is produced by a wing.</li>";
-What is drag?; "<li>/Parasitic/ drag is produced by aircraft as it moves through air. It increases with square of airspeed. /Induced/ drag is drag created by lift. It increases at a /high/ angle of attack / /lower/ airspeed and is highest at slow speed in landing configuration.</li>
-<li></li>";

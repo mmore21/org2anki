@@ -1,7 +1,2 @@
-What is a sample question?; "<li>A sample question is a question that is used to demonstrate a concept.</li>";
-Does org2anki support more than one cloze statement?; "<li>Yes, org2anki can parse multiple cloze statements in one string.</li>";
-Does org2anki support multiple lines for answers?; "<li>Yes, org2anki parses over all lines until it reaches the next question.</li>
-<li>Therefore, it will also add this to the Anki answer for the question above.</li>";
-Can org2anki parse LaTeX?; "<li>Yes, org2anki parses LaTeX just as it does any other form of text.</li>
-<li>It even can create cloze cards from LaTeX equations as seen in the next question.</li>";
-What is the Pythagorean theorem?; "<li>The Pythagorean theorem states that \( a^{2} + b^{2} = c^{2} \).</li>";
+Term; "This is a definition.";
+Flashcard; "There is a front and back for each flashcard.";
